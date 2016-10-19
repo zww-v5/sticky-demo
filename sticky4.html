@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>sticky示例3</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <style media="screen">
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            .header {
+                height: 40px;
+                background: #000;
+                line-height: 40px;
+                text-align: center;
+                color: #fff;
+                text-align: center;
+            }
+            .sticky-parent {
+                height: 200px;
+                border: 1px solid #000;
+            }
+            .sticky {
+                position: -webkit-sticky;
+                position: sticky;
+                top: 20px;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+                background: #ccc;
+                opacity: 0.6
+            }
+            .sticky-child {
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            头部
+        </div>
+        <div class="section">
+            <p>正文内容</p>
+            <div class="sticky-parent">
+                <div class="sticky">
+                    设置了sticky的元素A <i class="sticky-child">absolute子元素</i>
+                </div>
+                <p>sticky后面的元素B</p>
+                <p>sticky后面的元素C</p>
+            </div>
+            <p>正文内容</p>
+            <p style="height: 1600px;">正文内容</p>
+        </div>
+    </body>
+</html>

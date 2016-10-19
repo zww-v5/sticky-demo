@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>置顶面包屑 - sticky示例</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            height: 40px;
+            background: #000;
+            line-height: 40px;
+            text-align: center;
+            color: #fff;
+            text-align: center;
+        }
+
+        .crumb {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+        }
+
+        .crumb-inner {
+            padding: 0 20px;
+            border-bottom: 1px solid #000;
+            background: #fff;
+            font-size: 12px;
+            line-height: 30px;
+        }
+
+        .crumb a {
+            color: #2277cc;
+            text-decoration: none;
+        }
+
+        .crumb.fixed .crumb-inner {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .content-txt {
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        头部
+    </div>
+    <div class="section">
+        <div class="crumb">
+            <div class="crumb-inner"><a href="">返回首页</a></div>
+        </div>
+        <p class="content-txt">正文内容</p>
+        <p class="content-txt">正文内容</p>
+        <p class="content-txt">正文内容</p>
+        <p class="content-txt">正文内容</p>
+    </div>
+
+    <script>
+        if (!isStyleSupported('position', 'sticky') && !isStyleSupported('position', '-webkit-sticky')) {
+            initScroll();
+        }
+
+        function initScroll() {
+            var crumb = document.querySelector(".crumb"),
+                offsetTop = crumb.offsetTop;
+
+            window.addEventListener('scroll', function(event) {
+                var top = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+
+                if (top >= offsetTop) {
+                    crumb.className = 'crumb fixed';
+                } else {
+                    crumb.className = 'crumb';
+                }
+            }, false);
+        }
+
+        function isStyleSupported(prop, value) {
+            // If no value is supplied, use "inherit"
+            value = arguments.length === 2 ? value : 'inherit';
+            // Try the native standard method first
+            if ('CSS' in window && 'supports' in window.CSS) {
+                return window.CSS.supports(prop, value);
+            }
+            // Check Opera's native method
+            if ('supportsCSS' in window) {
+                return window.supportsCSS(prop, value);
+            }
+            // Convert to camel-case for DOM interactions
+            var camel = prop.replace(/-([a-z]|[0-9])/ig, function(all, letter) {
+                return (letter + '').toUpperCase();
+            });
+            // Create test element
+            var el = document.createElement('div');
+            // Check if the property is supported
+            var support = (camel in el.style);
+            // Assign the property and value to invoke
+            // the CSS interpreter
+            el.style.cssText = prop + ':' + value;
+            // Ensure both the property and value are
+            // supported and return
+            return support && (el.style[camel] !== '');
+        }
+    </script>
+</body>
+
+</html>

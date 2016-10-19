@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>表头固定 - sticky示例</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            height: 40px;
+            background: #000;
+            line-height: 40px;
+            text-align: center;
+            color: #fff;
+            text-align: center;
+        }
+
+        .content-txt {
+            height: 200px;
+        }
+
+        table {
+            box-sizing: border-box;
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+        }
+        .table-hd {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #fff;
+        }
+        .table-hd th {
+            line-height: 20px;
+        }
+        .table-bd {
+            border-top: none;
+        }
+        .table-bd tr:first-child td {
+            border-top: none;
+        }
+
+        .fixed-hd {
+            position: relative;
+            padding-top: 32px;
+        }
+        .fixed-hd .table-hd {
+            position: absolute;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        头部
+    </div>
+    <div class="section">
+        <p>正文内容</p>
+        <div class="table">
+            <table class="table-hd">
+                <tr>
+                    <th>标题</th>
+                    <th>标题</th>
+                    <th>标题</th>
+                </tr>
+            </table>
+            <table class="table-bd">
+                <tr>
+                    <td>内容</td>
+                    <td>内容</td>
+                    <td>内容</td>
+                </tr>
+                <tr>
+                    <td>内容</td>
+                    <td>内容</td>
+                    <td>内容</td>
+                </tr>
+                <tr>
+                    <td>内容</td>
+                    <td>内容</td>
+                    <td>内容</td>
+                </tr><tr>
+                    <td>内容</td>
+                    <td>内容</td>
+                    <td>内容</td>
+                </tr>
+                <tr>
+                    <td>内容</td>
+                    <td>内容</td>
+                    <td>内容</td>
+                </tr>
+                <tr>
+                    <td>内容</td>
+                    <td>内容</td>
+                    <td>内容</td>
+                </tr><tr>
+                    <td>内容</td>
+                    <td>内容</td>
+                    <td>内容</td>
+                </tr>
+                <tr>
+                    <td>内容</td>
+                    <td>内容</td>
+                    <td>内容</td>
+                </tr>
+                <tr>
+                    <td>内容</td>
+                    <td>内容</td>
+                    <td>内容</td>
+                </tr><tr>
+                    <td>内容</td>
+                    <td>内容</td>
+                    <td>内容</td>
+                </tr>
+                <tr>
+                    <td>内容</td>
+                    <td>内容</td>
+                    <td>内容</td>
+                </tr>
+                <tr>
+                    <td>内容</td>
+                    <td>内容</td>
+                    <td>内容</td>
+                </tr><tr>
+                    <td>内容</td>
+                    <td>内容</td>
+                    <td>内容</td>
+                </tr>
+                <tr>
+                    <td>内容</td>
+                    <td>内容</td>
+                    <td>内容</td>
+                </tr>
+                <tr>
+                    <td>内容</td>
+                    <td>内容</td>
+                    <td>内容</td>
+                </tr>
+            </table>
+        </div>
+        <p class="content-txt">正文内容</p>
+        <p class="content-txt">正文内容</p>
+        <p class="content-txt">正文内容</p>
+    </div>
+
+    <script>
+        if (!isStyleSupported('position', 'sticky') && !isStyleSupported('position', '-webkit-sticky')) {
+            initScroll();
+        }
+
+        function initScroll() {
+            var table = document.querySelector(".table"),
+                tableHd = document.querySelector('.table-hd'),
+                offsetTop = table.offsetTop,
+                maxTop = table.clientHeight - tableHd.offsetHeight,
+                top;
+
+            console.log(maxTop);
+
+            window.addEventListener('scroll', function(event) {
+                var top = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+
+                if (top > offsetTop) {
+                    table.className = 'table fixed-hd';
+                    top = top - offsetTop;
+                    top = top > maxTop ? maxTop : top;
+                    tableHd.style.top = top + 'px';
+                } else {
+                    table.className = 'table';
+                }
+            }, false);
+        }
+
+        function isStyleSupported(prop, value) {
+            // If no value is supplied, use "inherit"
+            value = arguments.length === 2 ? value : 'inherit';
+            // Try the native standard method first
+            if ('CSS' in window && 'supports' in window.CSS) {
+                return window.CSS.supports(prop, value);
+            }
+            // Check Opera's native method
+            if ('supportsCSS' in window) {
+                return window.supportsCSS(prop, value);
+            }
+            // Convert to camel-case for DOM interactions
+            var camel = prop.replace(/-([a-z]|[0-9])/ig, function(all, letter) {
+                return (letter + '').toUpperCase();
+            });
+            // Create test element
+            var el = document.createElement('div');
+            // Check if the property is supported
+            var support = (camel in el.style);
+            // Assign the property and value to invoke
+            // the CSS interpreter
+            el.style.cssText = prop + ':' + value;
+            // Ensure both the property and value are
+            // supported and return
+            return support && (el.style[camel] !== '');
+        }
+    </script>
+</body>
+
+</html>
